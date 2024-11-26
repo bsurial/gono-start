@@ -2,6 +2,7 @@
 library(future.apply)
 library(simstudy)
 library(tidyverse)
+library(broom)
 plan(multisession, workers = 11)
 
 
@@ -29,7 +30,6 @@ simit <- function(fup_time, incidence, n_arm, delta) {
   
   # Create treatemnt groups (n = 2)
   dd <- trtAssign(dd, nTrt = 2, grpName = "grp", balanced = TRUE)
-  dd
   
   # Fit Poisson model
   m <- glm(count ~ grp + offset(log(fup)), data = dd, family = "poisson")
