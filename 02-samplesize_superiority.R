@@ -8,7 +8,7 @@ plan(multisession, workers = 11)
 
 n_sim = 1000          # Number of simulations for each power estimate
 fup_time = 2.5        # Mean study duration per participant in years
-incidence = 8.41/100   # Incidence rate per 100 person-years
+incidence = 5.41/100   # Incidence rate per 100 person-years
 effect = 0.5          # Effect size, IRR
 beta = 0.1            # Beta to stop the simulation
 
@@ -105,7 +105,7 @@ my_power <- function(n, incidence, effect, fup) {
 }
 
 
-p_par <- map_dfr(seq(temp$N-50,temp$N+50, 1), ~my_power(n = .x, incidence = incidence, 
+p_par <- map_dfr(seq(temp$N-100,temp$N+100, 1), ~my_power(n = .x, incidence = incidence, 
                                             effect = effect, fup = fup_time)) |> 
   ggplot(aes(n_per_arm, power)) +
   geom_line(color = "darkred") +
@@ -125,3 +125,5 @@ p_sim + p_par &
   patchwork::plot_annotation(caption =glue::glue("
                            Incidence: {incidence*100} per 100 PY, Effect size: IRR {effect}, Trial duration: {fup_time} years, One-sided alpha: 0.025
                            Each estimate is based on {n_sim} simulations. Model used: glm(count ~ grp + offset(log(fup)), data = dd, family = ´poisson´)"))
+
+ggsave("02-samplesize_superiority_5.41.png", width = 10, height = 5, bg = "white", dpi = 300)
