@@ -192,7 +192,7 @@ screening_uptake <- fup |>
 
 # Summary of Screening uptake
 median(screening_uptake$p_screened) # Median 22.2%
-mean(screenin_uptake$p_screened) # Mean 27.9%
+mean(screening_uptake$p_screened) # Mean 27.9%
 
 
 screening_uptake |> 
@@ -243,7 +243,7 @@ screening_uptake |>
                                  last_center == 60 ~ "SG", 
                                  last_center == 70 ~ "LUG")) |> 
   ggplot(aes(x = p_screened)) +
-  geom_density(fill = "grey", color = "black") + 
+  geom_density(fill = "grey", color = "black", adjust = 0.66) + 
   facet_grid(last_center ~ last_source) + 
   scale_x_continuous(breaks = seq(0, 100, 25)) + 
   labs(x = "
