@@ -8,8 +8,8 @@ plan(multisession, workers = 11)
 
 
 n_sim = 1000          # Number of simulations for each power estimate
-fup_time = 3          # Mean study duration per participant in years
-incidence = 5.4/100   # Incidence rate per 100 person-years
+fup_time = 3        # Mean study duration per participant in years
+incidence = 8.3/100   # Incidence rate per 100 person-years
 n_arm = 500           # Number of participants per arm
 delta = 1.5           # Non-inferiority margin, on IRR scale
 beta = 0.2
@@ -47,7 +47,7 @@ simit <- function(fup_time, incidence, n_arm, delta) {
 i <- 1                 # Index for dataframe
 pwr <- c()             # Vector to store power estimates
 ns <- c()              # Vector to store number of participants per arm
-n_per_arm <- 500       # Initial number of participants per arm
+n_per_arm <- 300       # Initial number of participants per arm
 beta <- 0.1            # Beta to stop the simulation
 
 power <- mean(future_replicate(n_sim, simit(fup_time, incidence, n_per_arm, delta)))
@@ -67,7 +67,7 @@ samplesize_calculated <- tibble(pwr, ns)
 
 # Use a loess model to get estimate of the smoother that is closest to 80%
 mod <- loess(pwr ~ ns, data = samplesize_calculated, span = 0.75)
-new_ns <- tibble(ns = 500:700)
+new_ns <- tibble(ns = 300:700)
 new_ns$p <- predict(mod, newdata = new_ns, type = "response")
 
 p0.8 <- new_ns |> 
@@ -101,4 +101,4 @@ tibble(pwr, ns) |>
         panel.grid.minor.y = element_blank())
 
 # Write out the graph
-ggsave("01-gonostudy.samplesize.5.4_3years.png", width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("01-gonostudy.samplesize.8.3_3years.png", width = 8, height = 6, dpi = 300, bg = "white")
