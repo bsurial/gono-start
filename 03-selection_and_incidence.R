@@ -189,6 +189,12 @@ screening_uptake <- fup |>
             fup_duration = as.numeric(last(fupdate) - first(fupdate))/365.25) |> 
   mutate(p_screened = n_screens / n_visits * 100)
 
+
+# Summary of Screening uptake
+median(screening_uptake$p_screened) # Median 22.2%
+mean(screenin_uptake$p_screened) # Mean 27.9%
+
+
 screening_uptake |> 
   left_join(last_fup) |> 
   ggplot() + 
